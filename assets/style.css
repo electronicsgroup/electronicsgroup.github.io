@@ -1933,3 +1933,17 @@ body > .site-footer {
   text-indent: 2em;
 }
 .page-research .theme .prose p:first-child { text-indent: 2em; }
+
+
+/* page-level h1 for SEO / screen readers, visually hidden */
+.seo-h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
