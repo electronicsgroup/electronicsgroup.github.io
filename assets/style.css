@@ -1,0 +1,1935 @@
+/* ---------- fonts: self-hosted, latin subset, variable 400-600 ---------- */
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(fonts/archivo-var.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(fonts/source-serif-4-var.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ============================================================
+   Li's Research Group — template stylesheet
+   Palette: paper / ink / mute / rule / oxide violet (single accent)
+   Type:    Archivo (structure, UI) + Source Serif 4 (reading)
+   ============================================================ */
+
+:root {
+  --paper: #F7F8F6;
+  --ink: #16181B;
+  --mute: #3A4043;
+  --rule: #DCDFD9;
+  --rule-strong: #C4C8C1;
+  --accent: #1E4B8C;
+  --accent-soft: #E7EEF9;
+  --photo: #E6E8E2;
+
+  --wrap: 82rem;
+  --gutter: 2rem;
+  --label-col: 170px;
+  --label-gap: clamp(1.5rem, 4vw, 3.5rem);
+  --section-pad: clamp(2.75rem, 5.5vw, 4.5rem);
+}
+
+/* ---------- reset ---------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  font-size: clamp(100%, calc(76.25% + 0.38vw), 132%);
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  /* Times New Roman before Georgia on purpose: Georgia defaults to old-style
+     figures, so if the webfont ever fails the numbers would sink below the
+     baseline while the letters stay put */
+  font-family: Archivo, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  font-optical-sizing: auto;
+  /* Source Serif defaults to tabular figures, which leaves a wide gap around
+     every 1 — proportional lining figures sit correctly in running text.
+     lining-nums is explicit so no fallback font can drop the digits below
+     the baseline. */
+  font-variant-numeric: lining-nums proportional-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+  margin: 0;
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+img, svg { max-width: 100%; }
+img { display: block; }
+
+/* chemical subscripts: smaller and lowered, but the line box must not grow */
+sub, sup { font-size: 0.7em; line-height: 0; position: relative; vertical-align: baseline; }
+sub { bottom: -0.22em; }
+sup { top: -0.42em; }
+
+a { color: inherit; text-decoration-color: var(--rule-strong); text-underline-offset: 0.18em; }
+/* Addresses read as plain text everywhere; underline appears on hover. */
+a[href^="mailto:"] { text-decoration: none; }
+a[href^="mailto:"]:hover,
+a[href^="mailto:"]:focus-visible { text-decoration: underline; text-decoration-color: var(--accent); color: var(--accent); }
+a:hover { text-decoration-color: var(--accent); color: var(--accent); }
+
+ul, ol { margin: 0 0 1em; padding-left: 1.15em; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--paper);
+  padding: 0.75rem 1rem;
+  font-family: Archivo, sans-serif;
+  font-size: 0.875rem;
+  z-index: 50;
+}
+.skip:focus { left: 1rem; top: 1rem; }
+
+/* ---------- layout ---------- */
+
+.wrap {
+  width: min(var(--wrap), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  :root { --gutter: 1.25rem; }
+}
+
+.prose { max-width: 64ch; }
+.prose p { max-width: 64ch; }
+
+.small {
+  font-family: Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--mute);
+}
+
+.lead {
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.55;
+  max-width: 42ch;
+  color: #2A2E31;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: #004098;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-block: 0.85rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  text-decoration: none;
+  color: #fff;
+}
+.brand-mark {
+  display: block;
+  width: auto;
+  height: 34px;
+}
+.brand-divider {
+  flex: none;
+  width: 1px;
+  height: 26px;
+  background: var(--rule);
+}
+.brand:hover { color: #fff; }
+.brand-name {
+  display: block;
+  color: #fff;
+  font-family: Archivo, sans-serif;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.018em;
+  line-height: 1.3;
+}
+.site-nav ul {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 1.8vw, 1.75rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  display: inline-block;
+  font-family: Archivo, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  color: rgba(255,255,255,.84);
+  text-decoration: none;
+  white-space: nowrap;
+  padding-block: 0.35rem;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover { color: #fff; border-bottom-color: #fff; }
+.site-nav a[aria-current="page"] { color: #fff; border-bottom-color: #fff; }
+
+.nav-toggle {
+  display: none;
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #fff;
+  background: none;
+  border: 1px solid rgba(255,255,255,.5);
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+}
+.nav-toggle:hover { border-color: #fff; }
+
+@media (max-width: 860px) {
+  .site-header .wrap { flex-wrap: wrap; gap: 0.75rem; }
+  .nav-toggle { display: block; }
+  .site-nav {
+    flex-basis: 100%;
+    display: none;
+  }
+  .site-nav.is-open { display: block; }
+  .site-nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding-bottom: 0.75rem;
+  }
+  .site-nav li { width: 100%; border-top: 1px solid rgba(255,255,255,.18); }
+  .site-nav a {
+    display: block;
+    padding-block: 0.7rem;
+    border-bottom: 0;
+  }
+  .site-nav a[aria-current="page"] { color: #fff; }
+}
+
+/* ---------- hero (home) ---------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  background-color: #2C5DA8;
+  padding-block: clamp(3.75rem, 10vw, 7rem);
+}
+
+.hero-inner { position: relative; }
+
+.hero-wafer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(880px, 126vw);
+  height: auto;
+  opacity: 0.02;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-welcome {
+  font-family: Archivo, sans-serif;
+  font-size: clamp(1.0625rem, 1.9vw, 1.375rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0 0 0.85rem;
+}
+
+.hero h1 {
+  max-width: 40ch;
+  margin: 0 auto;
+  font-size: clamp(1.8rem, 4.2vw, 3.1rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.h1-abbr { white-space: nowrap; }
+
+.hero-affil {
+  margin: 1.6rem 0 0;
+  font-family: Archivo, sans-serif;
+  font-size: clamp(0.875rem, 1.3vw, 0.9375rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.hero-lead {
+  max-width: 54ch;
+  margin: 2.05rem auto 0;
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  text-wrap: pretty;
+}
+
+.hero-open {
+  margin: 2.05rem 0 0;
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.004em;
+  color: #fff;
+}
+
+.hero-open a {
+  white-space: nowrap;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+}
+.hero-open a:hover { color: #fff; text-decoration-color: #fff; }
+
+.hero-cta { margin: 2.4rem 0 0; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #fff;
+  color: var(--accent);
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  padding: 0.85rem 1.55rem;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  color: #17335F;
+  background: #EAF1FB;
+  text-decoration: none;
+}
+
+.btn .arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* wafer watermark animation */
+
+.hero-wafer .scan { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-welcome,
+  .hero h1,
+  .hero-affil,
+  .hero-lead,
+  .hero-open,
+  .hero-cta {
+    animation: hero-in 0.75s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+  }
+  .hero h1      { animation-delay: 0.06s; }
+  .hero-affil   { animation-delay: 0.13s; }
+  .hero-lead    { animation-delay: 0.19s; }
+  .hero-open    { animation-delay: 0.25s; }
+  .hero-cta     { animation-delay: 0.31s; }
+
+  .hero-wafer .scan { animation: scan 1.9s cubic-bezier(0.32, 0.6, 0.35, 1) 0.7s both; }
+}
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes scan {
+  0%   { opacity: 0; transform: translateX(0); }
+  18%  { opacity: 1; }
+  82%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translateX(520px); }
+}
+
+@media (max-width: 640px) {
+  .hero { padding-block: clamp(3rem, 12vw, 4.5rem) clamp(3.5rem, 13vw, 5rem); }
+  .hero h1 {
+    max-width: none;
+    font-size: clamp(1.55rem, 6.6vw, 2rem);
+    letter-spacing: -0.022em;
+    text-wrap: normal;
+  }
+  .hero-wafer { width: 118vw; }
+  .btn { padding: 0.8rem 1.35rem; }
+}
+
+/* ---------- sections: label column + content ---------- */
+
+.section {
+  border-top: 1px solid var(--rule);
+  padding-block: var(--section-pad);
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: var(--label-col) minmax(0, 1fr);
+  gap: var(--label-gap);
+}
+
+/* members page: the group heading sits above its grid instead of in a
+   left-hand label column */
+.page-members .section-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.35rem;
+}
+/* The centred group headings already carry their own divider; a second
+   full-width border on every section reads as a duplicate rule. */
+.page-instruments .section {
+  border-top: 0;
+  padding-block: 0 1.4rem;
+}
+.page-instruments .section-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding-top: 0;
+}
+.page-members .section-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  padding-top: 0;
+}
+/* instruments page: group headings are larger and centred, so they read as
+   section dividers rather than as one more line of text */
+.page-instruments .section-label {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-align: center;
+  padding-top: 0;
+}
+/* thin rules either side anchor the centred heading, so it reads as a
+   section divider instead of a stray line floating mid-page */
+.page-instruments .section-label::before,
+.page-instruments .section-label::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: #D7DAD4;
+}
+
+.section-grid > * { min-width: 0; }
+
+.section-label {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--mute);
+  margin: 0;
+  padding-top: 0.35rem;
+}
+
+/* Year groups sit close together; the stacked section padding was too airy. */
+.page-publications .section { padding-block: 0.65rem 0.85rem; }
+
+.section-label--year {
+  color: var(--accent);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding-top: 0;
+}
+
+/* group headings on the instruments page sit at the same weight and
+   scale as the instrument names they introduce */
+.section-label--strong {
+  color: var(--accent);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  padding-top: 0;
+}
+
+@media (max-width: 800px) {
+  .section-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .section-label {
+    font-size: 1.0625rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    padding-top: 0;
+  }
+}
+
+/* research list on home */
+
+.research-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.research-list h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.research-list p {
+  font-size: 0.9688rem;
+  line-height: 1.55;
+  color: var(--mute);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .research-list { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+/* ---------- facts list ---------- */
+
+.facts {
+  display: grid;
+  grid-template-columns: minmax(7rem, max-content) minmax(0, 1fr);
+  gap: 0.55rem 1.75rem;
+  margin: 1.75rem 0 0;
+  font-family: Archivo, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.facts dt { color: var(--mute); }
+.facts dd { margin: 0; }
+
+/* ---------- publications ---------- */
+
+.entries { margin: 0; padding: 0; list-style: none; max-width: 74ch; }
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, 68ch) auto;
+  justify-content: start;
+  gap: 0.15rem 1.75rem;
+  padding-block: 0.42rem;
+  border-top: 1px solid var(--rule);
+}
+.entry:first-child { border-top: 0; padding-top: 0; }
+
+.entry-authors {
+  grid-column: 1;
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #1F2325;          /* near-black: grey was hard to read at 15px */
+  margin: 0;
+}
+
+.entry-title {
+  grid-column: 1;
+  font-family: Archivo, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  margin: 0.15rem 0;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.entry-venue {
+  grid-column: 1;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #3A4043;
+  margin: 0;
+}
+.entry-venue em { font-style: italic; }
+
+.entry-links {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: end;
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  margin: 0;
+  white-space: nowrap;
+}
+.entry-links a { text-decoration: none; color: var(--accent); border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.entry-links a:hover { opacity: 0.7; }
+
+.legend {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  color: var(--mute);
+  margin-bottom: 2rem;
+}
+
+/* ---------- CV-style record list ---------- */
+
+.cv-list { list-style: none; margin: 0; padding: 0; max-width: 74ch; }
+
+.cv-list li {
+  padding-block: 0.7rem;
+  border-top: 1px solid var(--rule);
+  line-height: 1.55;
+}
+.cv-list li:first-child { border-top: 0; padding-top: 0; }
+
+.cv-list .when {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.7rem;
+  white-space: nowrap;
+}
+
+/* ---------- join band ---------- */
+
+.join {
+  background: var(--accent-soft);
+  padding: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+.join h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.65rem;
+}
+
+.join p {
+  max-width: none;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+/* ---------- content edge ---------- */
+
+@media (min-width: 801px) {
+  .indent { padding-left: calc(var(--label-col) + var(--label-gap)); }
+  .page-head .intro { margin-left: calc(var(--label-col) + var(--label-gap)); }
+}
+
+/* ---------- page head (subpages) ---------- */
+
+.page-head {
+  padding-block: clamp(2.75rem, 5vw, 4rem) clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.page-head h1 {
+  font-size: clamp(2rem, 4vw, 2.875rem);
+  letter-spacing: -0.03em;
+}
+
+.page-head .intro {
+  margin-top: 1rem;
+  max-width: 62ch;
+  color: #2A2E31;
+}
+
+/* ---------- profile (PI page) ---------- */
+
+.profile {
+  display: grid;
+  /* the PI portrait is the one image that deserves more than the 170px
+     label column the rest of the page uses */
+  grid-template-columns: minmax(var(--label-col), 390px) minmax(0, 1fr);
+  gap: var(--label-gap);
+  align-items: start;
+  padding-bottom: var(--section-pad);
+}
+
+.profile > * { min-width: 0; }
+
+/* the PI portrait fills the narrow label column; cover keeps the 3:4 frame
+   even if a square headshot is dropped in later */
+.ph-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--photo);
+}
+
+.profile h1 { font-size: clamp(1.875rem, 3.4vw, 2.5rem); }
+
+.pi-name { font-size: clamp(1.5rem, 2.5vw, 1.9375rem); letter-spacing: -0.025em; }
+
+.pi-bio {
+  margin-top: 1.2rem;
+  max-width: none;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #2A2E31;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.profile-role {
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #2A2E31;
+  margin-top: 0.85rem;
+}
+
+.contact-list {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.35rem 0.45rem;
+  margin: 1.5rem 0 0;
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.contact-list dt { color: var(--mute); }
+.contact-list dd { margin: 0; word-break: break-word; }
+/* PI contact details read as plain text; underline only on hover/focus. */
+.contact-list a { text-decoration: none; }
+.contact-list a:hover,
+.contact-list a:focus-visible { text-decoration: underline; text-decoration-color: var(--accent); }
+
+@media (max-width: 780px) {
+  .profile { grid-template-columns: 1fr; }
+  .profile .ph-wrap { max-width: 220px; }
+}
+
+/* ---------- people ---------- */
+
+.people-group + .people-group { margin-top: 2.75rem; }
+
+.group-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.person { min-width: 0; }
+
+/* portraits: width-auto keeps the file's own ratio, no crop */
+.person img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--photo);
+}
+
+/* landscape portrait spans two tracks so it sits at roughly the same
+   height as the 3:4 cards in the same row */
+.person--wide { grid-column: span 2; }
+
+.person--wide h3 { margin-top: 0.85rem; }
+
+/* portrait files that are not already 3:4 get cropped to match the placeholders */
+.person--portrait img {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* full-width entry for members who come with a written introduction:
+   photo on the left, the whole paragraph on the right */
+.person--feature {
+  grid-column: auto;
+  display: grid;
+  grid-template-columns: clamp(130px, 30%, 168px) minmax(0, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: start;
+}
+
+.person--feature img { height: auto; }
+
+/* ID-style portrait photos stand 400px tall against a 130px text block, so the
+   text centres on the photo instead of hugging its top edge and leaving a
+   hollow corner underneath */
+.person--feature.person--upright { align-items: center; }
+
+.person--feature h3 {
+  margin-top: 0.15rem;
+  font-size: 1.0625rem;
+}
+
+.person--feature .person-bio {
+  font-family: Archivo, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: #2A2E31;
+  max-width: 62ch;
+  margin-top: 0.6rem;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.person--feature .person-meta {
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  color: #1F2325;          /* near-black: the grey version was too faint */
+  margin-top: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .person--feature {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .person--feature img { max-width: 260px; }
+}
+
+/* consecutive full-width entries need a boundary, the grid gap alone is not enough */
+/* two-up grid separates entries with the grid gap, so no rule needed */
+.person--feature + .person--feature {
+  border-top: 0;
+  padding-top: 0;
+}
+
+@media (max-width: 560px) {
+  .people-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.person h3 {
+  font-size: 0.9688rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  margin: 0.7rem 0 0.3rem;
+}
+
+.person p {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--mute);
+  margin: 0;
+  /* The bio sits in a ~260px column beside the portrait; justifying it
+     opens gaps between words that read worse than a ragged edge. */
+  text-align: left;
+}
+
+/* ---------- media placeholders ---------- */
+
+.ph {
+  display: grid;
+  place-items: center;
+  background: var(--photo);
+  color: #8B918C;
+  font-family: Archivo, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.ph--photo { aspect-ratio: 3 / 4; }
+.ph--wide { aspect-ratio: 16 / 9; }
+.ph--flat { aspect-ratio: 4 / 3; }
+.ph--map { aspect-ratio: 21 / 9; }
+
+/* ---------- instruments ---------- */
+
+.instrument-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.instrument {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 2rem;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 880px;
+  background: #FFFFFF;
+  border: 1px solid #E3E6E0;
+  border-radius: 4px;
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+.instrument:hover {
+  box-shadow: 0 3px 16px rgba(22, 24, 27, .07);
+  border-color: #D2D6CF;
+}
+.instrument:hover .instrument-thumb { filter: brightness(1.04) saturate(1.03); }
+.instrument h3 { transition: color .25s ease; }
+.instrument:hover h3 { color: #163A6B; }
+.instrument:first-child { border-top: 1px solid #E3E6E0; padding-top: 1.75rem; }
+
+.instrument-thumb {
+  width: 100%;
+  height: 225px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 3px;
+  transition: filter .3s ease;
+}
+
+/* real photographs keep their own ratio; the 4:3 box is only for placeholders */
+img/* height stays out of this rule so the 4:3 aspect-ratio wins; align-self
+   stops the grid row from stretching the photo past that ratio */
+.instrument-thumb {
+  display: block;
+  background: var(--photo);
+}
+.instrument-body { min-width: 0; align-self: center; }
+
+.instrument h3 {
+  font-size: 1.0625rem;
+  margin-bottom: 0.55rem;
+}
+
+.instrument-body > p {
+  font-size: 0.9688rem;
+  line-height: 1.55;
+  max-width: 62ch;
+  color: #2A2E31;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.instrument-links {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  color: var(--mute);
+  margin-top: 0.7rem;
+}
+.instrument-links a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.instrument-links a:hover { opacity: 0.7; }
+
+@media (max-width: 560px) {
+  .instrument { grid-template-columns: 1fr; gap: 0.9rem; }
+  .instrument-thumb { height: auto; max-width: 220px; }
+
+  /* justified text needs a wide measure; in one narrow column the gaps
+     between words get ugly, so go back to a ragged right edge here */
+  .instrument-body > p { text-align: left; hyphens: manual; }
+}
+
+/* ---------- contacts ---------- */
+
+/* contacts page rebuilt after the TherMAX-IC reference: label/value table,
+   a narrow side column, and a panel for measurement requests */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+.contact-side { display: grid; gap: 1.25rem; }
+.contact-panel {
+  max-width: 720px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+.contact-panel + .contact-panel { margin-top: 1.25rem; }
+/* Contact rows read as plain text; underline only on hover/focus. */
+.contact-table a {
+  text-decoration: none;
+  color: inherit;
+}
+.contact-table a:hover,
+.contact-table a:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+.contact-panel--wide { margin-top: 1.25rem; }
+.panel-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+}
+.contact-table {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.35rem;
+}
+.contact-table dt {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  color: var(--mute);
+  padding-top: 0.12rem;
+}
+.contact-table dd { margin: 0; color: var(--ink); }
+.contact-panel p {
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: #2A2E31;
+  margin: 0;
+}
+.contact-panel p + p { margin-top: 0.65rem; }
+.contact-panel .small { font-size: 0.8125rem; color: var(--mute); }
+.checklist {
+  margin: 0.9rem 0 0;
+  padding-left: 1.15rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #2A2E31;
+}
+.checklist li { margin-bottom: 0.25rem; }
+.location-grid {
+  display: grid;
+  /* The map is supporting information: keep it at a readable size and let
+     the leftover column stay empty rather than stretching to full width. */
+  grid-template-columns: minmax(0, 320px) minmax(0, 560px);
+  gap: 2.5rem;
+  align-items: start;
+  justify-content: start;
+}
+.location-text h3 {
+  font-size: 0.9375rem;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+.location-text h3 + p {
+  margin: 0 0 1.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: #2A2E31;
+}
+.page-contacts .page-head .intro { margin-left: 0; }
+.page-contacts .section-label {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  padding-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.contact-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.contact-card {
+  background: #FFFFFF;
+  border: 1px solid #E3E6E0;
+  border-radius: 4px;
+  padding: 1.5rem;
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+.contact-card:hover {
+  box-shadow: 0 3px 16px rgba(22, 24, 27, .07);
+  border-color: #D2D6CF;
+}
+.contact-card h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}.contact-card h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.7rem;
+}
+
+.contact-card p {
+  font-size: 0.9688rem;
+  line-height: 1.6;
+  color: #2A2E31;
+  margin-bottom: 0.55rem;
+}
+
+.contact-card .small { font-size: 0.8125rem; }
+
+.map-block {
+  display: block;
+  margin-top: 1.75rem;
+  max-width: 100%;
+}
+.map-block img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
+@media (max-width: 640px) {
+  .contact-cols { grid-template-columns: 1fr; gap: 1.75rem; }
+  .contact-layout, .location-grid { grid-template-columns: 1fr; }
+  .location-grid { gap: 1.75rem; }
+  .contact-table { grid-template-columns: 1fr; gap: 0.2rem; }
+  .contact-table dt { margin-top: 0.7rem; }
+  .contact-table dt:first-child { margin-top: 0; }
+}
+
+/* ---------- research themes ---------- */
+
+.theme {
+  padding-block: clamp(2rem, 3.5vw, 2.75rem);
+  border-top: 1px solid var(--rule);
+}
+.theme:first-of-type { border-top: 0; padding-top: 0; }
+
+.theme h2 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  margin-bottom: 0.75rem;
+}
+
+.theme .prose { margin-bottom: 1.5rem; max-width: 100%; }
+.theme .prose p { max-width: none; }
+/* Justified body copy across the research directions. */
+.theme .prose p,
+.page-research .page-head .intro {
+  text-align: justify;
+  max-width: 100%;   /* match the width of the direction copy below */
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.theme-figure { max-width: 1100px;  /* new diagrams are 1100px wide — show them at native size */ margin: 1.5rem auto 0;   /* centre the diagram so the side gutters match */ }
+.theme-figure a { display: block; }
+.theme-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
+/* ---------- teaching ---------- */
+
+.courses { list-style: none; margin: 0; padding: 0; }
+
+.course {
+  padding-block: 1.15rem;
+  border-top: 1px solid var(--rule);
+}
+.course:first-child { border-top: 0; padding-top: 0; }
+
+.course h2 { font-size: 1.25rem; margin-bottom: 0.4rem; }
+
+.course-meta {
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  color: var(--mute);
+  margin-bottom: 0.8rem;
+}
+
+.course p { max-width: 62ch; }
+
+.course .more { margin-top: 1rem; }
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(2.25rem, 4vw, 3.25rem) 1.5rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem clamp(2rem, 4vw, 3.5rem);
+}
+
+.abbr {
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.footer-name {
+  color: var(--accent);
+  font-family: Archivo, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  line-height: 1.4;
+  max-width: 30ch;
+  margin-bottom: 0.7rem;
+}
+
+.footer-h {
+  font-family: Archivo, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--mute);
+  margin-bottom: 0.6rem;
+}
+
+.footer-links { list-style: none; margin: 0; padding: 0; }
+.footer-links li { margin-bottom: 0.35rem; }
+.site-footer a { text-decoration: none; color: rgba(255, 255, 255, 0.82); }
+.site-footer a:hover, .site-footer a:focus-visible { color: #fff; text-decoration: none; }
+
+.footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid > :first-child { grid-column: 1 / -1; }
+}
+
+/* ---------- utilities ---------- */
+
+.action {
+  font-family: Archivo, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+.action:hover { color: var(--accent); opacity: 0.75; }
+
+.more { margin-top: 1.75rem; }
+
+/* ---------- print ---------- */
+
+@media print {
+  .site-header, .site-footer, .hero-wafer, .nav-toggle { display: none; }
+  .hero { background: none; color: var(--ink); padding-block: 0 1.5rem; }
+  .hero h1, .hero-open { color: var(--ink); }
+  .hero-welcome, .hero-affil, .hero-lead { color: var(--mute); }
+  .btn { border: 1px solid var(--ink); }
+  body { background: #fff; font-size: 11pt; }
+}
+/* narrow screens: keep the university wordmark legible without crowding the menu */
+@media (max-width: 640px) {
+  .brand { gap: 0.6rem; }
+  .brand-mark { height: 27px; }
+  .brand-divider { display: none; }
+  .brand-name { font-size: 0.9375rem; }
+}
+
+/* Justified text only works with a wide measure; below this width the word
+   gaps open up badly, so fall back to a ragged right edge. */
+@media (max-width: 700px) {
+  .entry-title,
+  .person-bio,
+  .pi-bio,
+  .theme .prose p,
+  .page-research .page-head .intro {
+    text-align: left;
+  }
+}
+
+/* Research page: the left label column is empty since the Directions label was
+   removed, so collapse to a single column and let the copy start at the h1. */
+.page-research .section-grid { grid-template-columns: minmax(0, 1fr); }
+.page-research .page-head .intro {
+  margin-left: 0;
+  max-width: none;
+}
+
+/* ---------- contacts / research: same single-sided spacing ---------- */
+/* Sections carry padding on both sides; between two of them the two halves */
+/* add up to a 137px dead band. Keep only the bottom half.                  */
+.page-contacts .section,
+.page-research .section { padding-block: 0 clamp(2rem, 2.8vw, 2.5rem); }
+
+/* ---------- members: tighter vertical rhythm ---------- */
+/* Each section carried a full --section-pad top and bottom, so consecutive */
+/* blocks sat ~137px apart. Halve the stack for this page.                 */
+.page-members .section {
+  border-top: 0;   /* no rules between people groups */
+  padding-block: 0 clamp(2rem, 2.6vw, 2.5rem);
+}
+
+/* The footer brings its own top margin; drop the last section's bottom */
+/* padding so the two do not stack into a dead band.                    */
+main > section.section:last-of-type { padding-bottom: 0; }
+
+/* Opening page mirrors the contacts rhythm. */
+.page-opening .section { padding-block: 0; }
+
+/* ---------- alumni ---------- */
+#alumni.section {
+  /* last block on the page: the footer already adds its own top margin, */
+  /* so a full section padding here stacks up into a dead band of white.  */
+  padding-bottom: 0;
+}
+.alumni-list { list-style: none; margin: 0; padding: 0; }
+/* one entry per line, name then address — fewer lines, more people on screen */
+.alumni-list li { padding: 0.3rem 0; }
+.alumni-list li:first-child { padding-top: 0; }
+.alumni-name {
+  display: inline;
+  font-family: Archivo, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.alumni-where {
+  display: inline;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--mute);
+}
+
+/* ---------- feedback round: flatter surfaces, numbered research themes ---------- */
+.page-research { counter-reset: theme; }
+.page-research .theme { counter-increment: theme; }
+.page-research .theme h2::before {
+  content: counter(theme, decimal-leading-zero);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.8rem;
+}
+
+.page-publications .section-grid { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
+.page-publications .section-label--year { margin-bottom: 0; }
+
+/* instruments: pull the first group up under the title */
+.page-instruments .page-head { padding-bottom: 0.75rem; }
+.page-instruments .section:first-of-type { padding-top: 0; }
+
+.page-opening .join { background: none; padding: 0; }
+
+/* PI contact lines read as plain text, no column alignment */
+.pi-contact { margin-top: 1.1rem; }
+.pi-contact p { margin: 0; line-height: 1.6; }
+.pi-contact p + p { margin-top: 0.15rem; }
+
+/* ---------- global tightening pass: trim every stacked gap ---------- */
+.page-members .section,
+.page-contacts .section,
+.page-research .section,
+.page-publications .section { padding-bottom: clamp(1.1rem, 1.8vw, 1.5rem); }
+.page-instruments .section { padding-block: 0.25rem 1.5rem; }
+main > section.section:last-of-type { padding-bottom: 0; }
+.site-footer { margin-top: 2rem; }
+body:has(.home-grid--solo) .site-footer { margin-top: 1.5rem; }
+.prose p + p { margin-top: 0.55rem; }
+.people-grid { gap: 1.5rem 1.25rem; }
+.person-bio { margin-top: 0.4rem; }
+.person-meta { margin-top: 0.45rem; }
+.pi-contact { margin-top: 0.8rem; }
+.pi-bio { margin-top: 0.8rem; }
+.theme-figure { margin-top: 1rem; }
+.instrument-list { gap: 1rem; }
+
+/* research themes: tighter blocks */
+.page-research .theme { padding-block: 1.4rem; }
+.page-research .theme:first-of-type { padding-top: 0; }
+.page-research .theme h2 { margin-bottom: 0.5rem; }
+.page-research .prose p + p { margin-top: 0.45rem; }
+.page-research .theme-figure { margin-top: 0.85rem; }
+
+.page-research .page-head { padding-bottom: 0.5rem; }
+.page-research .page-head .intro { margin-bottom: 0; }
+.page-research .theme h2 { margin-top: 0; margin-bottom: 0.45rem; }
+.page-research .page-head { padding-bottom: 0; margin-bottom: 0; }
+.page-research .page-head .intro { margin: 0.4rem 0 0; }
+.page-research .section:first-of-type { padding-top: 0; }
+.page-research .theme:first-of-type { padding-top: 0.35rem; }
+.page-research .theme:first-of-type { padding-top: 0; margin-top: -0.4rem; }
+
+/* PI affiliation and contact lines read as one block: same colour, same rhythm */
+.profile-role { line-height: 1.55; }
+.pi-contact { margin-top: 0.55rem; }
+.pi-contact p { line-height: 1.55; }
+.pi-contact p + p { margin-top: 0; }
+
+/* publications: centre the whole column so the right side is not empty */
+.page-publications .page-head,
+.page-publications .section-label--year { text-align: center; }
+.page-publications .entries { max-width: none; }
+
+/* opening page: lead, bullet list, how to apply */
+.opening { max-width: none; }
+.opening-lead { font-size: 1.0625rem; line-height: 1.65; margin: 0 0 0.7rem; }
+.opening h2 { font-size: 1rem; font-weight: 600; color: var(--accent); margin: 1rem 0 0.4rem; }
+.opening-list { margin: 0; padding-left: 1.1rem; }
+.opening-list li { line-height: 1.6; margin-bottom: 0.25rem; }
+.opening-list li::marker { content: "○  "; color: var(--mute); }
+.pi-contact p, .pi-contact a { font-size: 0.9375rem; color: var(--ink); }
+
+/* entries span the full column, but the text itself stays readable */
+.page-publications .entry-authors,
+.page-publications .entry-title,
+.page-publications .entry-venue { max-width: 68ch; }
+
+/* research: text column matches the figure width */
+.page-research .page-head,
+.page-research .page-head .wrap,
+.page-research .theme { max-width: none; }
+.page-research .section-grid { display: block; }
+
+/* instruments: category jump links */
+.instrument-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 0.9rem 0 1.6rem;
+  font-size: 0.9375rem;
+}
+.instrument-index a {
+  color: var(--mute);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+}
+.instrument-index a:hover,
+.instrument-index a:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* paper titles link to the publisher page */
+.page-publications .entry-title a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.page-publications .entry-title a:hover,
+.page-publications .entry-title a:focus-visible {
+  border-bottom-color: currentColor;
+}
+
+/* paper titles: heavier and darker so they read as the anchor of each entry */
+.page-publications .entry-title {
+  font-weight: 600;
+  color: #17427E;
+}
+
+/* news list */
+.news-list { list-style: none; margin: 0; padding: 0; }
+.news-list li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.news-list li:first-child { padding-top: 0; }
+.news-date {
+  font-size: 0.875rem;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+.news-body p { margin: 0; }
+
+/* pages now start with content (h1 removed) — give the header room */
+main > .section:first-of-type { padding-top: 3.25rem; }
+main > .section:first-of-type > .wrap > .instrument-index:first-child { margin-top: 0; }
+
+main > .section:first-of-type,
+.page-research main > .section:first-of-type,
+.page-instruments main > .section:first-of-type { padding-top: 3.25rem; }
+
+.page-instruments #materials { padding-top: 3.25rem; }
+
+/* contact block inside opening */
+.opening-h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 1.6rem 0 0.45rem;
+}
+.opening #contact { border-top: 1px solid var(--rule); margin-top: 1rem; }
+.opening-map { display: block; margin-top: 1.25rem; max-width: 42rem; }
+.opening-map img { width: 100%; height: auto; display: block; border-radius: 2px; }
+
+/* nav dropdown: Instruments → the three categories */
+.site-nav .nav-item--has-sub { position: relative; }
+.site-nav .nav-sub {
+  position: absolute;
+  top: 100%;
+  left: -1rem;
+  min-width: 15rem;
+  margin: 0;
+  padding: 0.4rem 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  box-shadow: 0 8px 24px rgba(16, 30, 52, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s;
+  z-index: 20;
+}
+.site-nav .nav-sub a {
+  display: block;
+  padding: 0.45rem 1rem;
+  color: #2A2E31;
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.site-nav .nav-sub a:hover,
+.site-nav .nav-sub a:focus-visible { background: #F1F4F8; color: var(--accent); }
+.site-nav .nav-item--has-sub:hover .nav-sub,
+.site-nav .nav-item--has-sub:focus-within .nav-sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+@media (max-width: 860px) {
+  .site-nav .nav-sub {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: 0;
+    background: transparent;
+    padding: 0 0 0 1rem;
+  }
+  .site-nav .nav-sub a { color: inherit; padding: 0.3rem 0; }
+}
+.site-nav .nav-sub li { display: block; margin: 0; }
+.site-nav .nav-sub { width: max-content; min-width: 16rem; }
+
+.site-nav .nav-sub { display: block; }
+.site-nav .nav-sub li { width: auto; border-top: 0; }
+
+/* publications: tighten the year rule and the gap around it */
+.page-publications .section { padding-block: 0.35rem 0.55rem; }
+.page-publications .section-label--year {
+  margin: 0;
+  padding: 0.55rem 0 0.35rem;
+}
+.page-publications .entries { margin-top: 0; }
+.page-publications .entry { padding-block: 0.12rem; }
+
+/* publications: the column ends where the longest line ends, then centres */
+.page-publications .entries { max-width: none; }
+.page-publications .entry-authors,
+.page-publications .entry-title,
+.page-publications .entry-venue { max-width: none; }
+
+/* publication entries fill the full column width */
+.page-publications .entry { grid-template-columns: minmax(0, 1fr) auto; }
+.page-publications .entry-authors,
+.page-publications .entry-title,
+.page-publications .entry-venue { max-width: none; }
+
+/* publications and instruments start tight, they are lists not prose */
+.page-publications main > .section:first-of-type,
+.page-instruments main > .section:first-of-type,
+.page-instruments main > #materials { padding-top: 0.9rem; }
+
+/* year label: the glyph height, not a double-height line box */
+.page-publications .section-label--year {
+  line-height: 1.15;
+  padding: 0.06rem 0 0;
+}
+.page-publications .section { padding-block: 0.05rem 0.1rem; }
+
+/* instrument cards fill the column instead of stopping at 880px */
+.page-instruments .instrument { max-width: none; }
+.page-instruments .instrument-list { align-items: stretch; }
+.page-instruments .instrument-thumb { height: 260px; }
+
+/* instrument descriptions fill their column (the global 62ch cap is for prose pages) */
+.page-instruments .instrument-body p { max-width: none; }
+
+/* research figures stay centred inside the wider text column */
+.page-research .theme figure,
+.page-research .theme img { margin-inline: auto; }
+
+/* PI card uses the same stacked layout as every other member */
+.person--feature {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+.person--feature.person--upright { align-items: start; }
+.person--feature img { max-width: none; width: 100%; }
+.person--feature h3 { margin-top: 0; font-size: 1rem; }
+.person--feature .person-bio {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: none;
+  margin-top: 0.5rem;
+}
+.person--feature .person-meta { margin-top: 0.6rem; }
+
+/* PI block: photo left, text right, tops aligned */
+.profile { align-items: start; gap: 1.1rem; }
+.ph-wrap { max-width: none; }
+.ph-wrap img { aspect-ratio: 4 / 5; }
+.pi-name { font-size: 1.5rem; letter-spacing: -0.01em; margin: 0 0 0.5rem; line-height: 1.2; }
+.profile-role { font-size: 0.9375rem; line-height: 1.5; margin-top: 0; }
+.pi-contact { margin-top: 0.2rem; }
+.pi-bio { margin-top: 0.9rem; max-width: none; line-height: 1.62; }
+
+/* member photos: four to a row instead of two */
+.people-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem 1.5rem; }
+@media (max-width: 1100px) { .people-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .people-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* nav labels a notch larger */
+.site-nav a { font-size: 1rem; }
+
+/* every member photo occupies the same box, so names line up across the row */
+.people-grid .person img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* member card: plain column layout so the gap after the photo is identical everywhere */
+.people-grid .person {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.9rem;
+}
+.people-grid .person img { align-self: flex-start; }
+.people-grid .person .person-body { min-height: 0; }
+
+/* PI copy reads larger on wide screens */
+.pi-bio { font-size: 1rem; line-height: 1.68; }
+.profile-role, .pi-contact p, .pi-contact a { font-size: 0.9688rem; }
+
+/* PI block: contact lines and bio follow the address with no gaps */
+.pi-contact { margin-top: 0; }
+.pi-contact p { margin: 0; line-height: 1.45; }
+.pi-contact p + p { margin-top: 0; }
+.pi-bio { margin-top: 0.15rem; }
+
+.profile-role { margin: 0; line-height: 1.45; }
+.pi-contact, .pi-contact p, .pi-contact p + p { margin: 0; }
+.pi-bio { margin-top: 0.1rem; }
+
+/* footer: contact block on the left, outbound links on the right */
+body > .site-footer {
+  background: #0C1B2E;
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 3rem;
+  padding: 2.6rem 0 1.1rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 2rem 4rem;
+  align-items: start;
+}
+.footer-title {
+  margin: 0 0 0.9rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+.footer-list { list-style: none; margin: 0; padding: 0; font-size: 0.875rem; line-height: 1.62; }
+.footer-list li + li { margin-top: 0.75rem; }
+.footer-list a { color: rgba(255, 255, 255, 0.78); text-decoration: none; border-bottom: 1px solid transparent; }
+.footer-list a:hover, .footer-list a:focus-visible { color: #fff; border-bottom-color: rgba(255,255,255,0.6); }
+.footer-list--links li { position: relative; padding-left: 1.15rem; }
+.footer-list--links li::before { content: ""; position: absolute; left: 0; top: 0.58em; width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.55); }
+.footer-bottom {
+  margin-top: 1.9rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.footer-bottom p { margin: 0; font-size: 0.8125rem; color: rgba(255, 255, 255, 0.5); text-align: center; }
+@media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; } }
+
+/* research figures: show at native 1100px, centred */
+.page-research .theme figure, .page-research .theme a { max-width: 1100px; margin-inline: auto; }
+.page-research .theme img { width: 100%; height: auto; }
+
+/* research: paragraphs run on, no gaps between them */
+.page-research .theme p { margin: 0; }
+.page-research .theme p + p { margin-top: 0; }
+.page-research .theme h2 + p { margin-top: 0.35rem; }
+
+/* footer contact rows: circular icon on the left, text on the right */
+.footer-contact { list-style: none; margin: 0; padding: 0; }
+.footer-contact li {
+  display: grid;
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  font-size: 0.875rem;
+  line-height: 1.62;
+}
+.footer-contact li + li { margin-top: 0.85rem; }
+.footer-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+}
+.footer-ico svg { width: 1.05rem; height: 1.05rem; display: block; }
+.footer-cn { color: rgba(255, 255, 255, 0.55); }
+.footer-contact a { color: rgba(255, 255, 255, 0.82); text-decoration: none; border-bottom: 1px solid transparent; }
+.footer-contact a:hover, .footer-contact a:focus-visible { color: #fff; border-bottom-color: rgba(255,255,255,0.55); }
+.footer-list--links a { font-size: 0.9375rem; }
+.site-footer { font-family: inherit; }
+
+/* footer links: underline hugs the text instead of a full-width border */
+.footer-contact a, .footer-list a {
+  border-bottom: 0;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.footer-contact a:hover, .footer-contact a:focus-visible,
+.footer-list a:hover, .footer-list a:focus-visible {
+  border-bottom: 0;
+  text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+
+/* member card: pin the email to the bottom so the four columns line up */
+.people-grid .person .person-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.people-grid .person .person-meta { margin-top: auto; padding-top: 0.5rem; }
+
+/* PI bio separated from the contact block by one blank line */
+.pi-bio { text-indent: 0; margin-top: 1.7em; }
+
+/* ---------- news page: dated entries ---------- */
+.page-news .entries { padding-bottom: 3.5rem; }
+
+.page-news .entry {
+  --label-col: 58px;
+  display: grid;
+  grid-template-columns: var(--label-col) minmax(0, 1fr);
+  column-gap: 1.1rem;
+  padding-block: 1.15rem;
+  border-top: 1px solid var(--rule);
+}
+
+.page-news .entry-date {
+  align-self: start;
+  justify-self: start;
+  width: 100%;
+  max-width: 84px;
+  padding: 0.62rem 0.4rem 0.55rem;
+  background: var(--accent-soft);
+  border-radius: 2px;
+  text-align: center;
+}
+.page-news .entry-date {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.page-news .entry-date .y {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+  margin-top: 0;
+}
+.page-news .entry-date .m {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--accent);
+  margin-top: 0.12rem;
+  opacity: 0.72;
+}
+.page-news .entry-body { min-width: 0; }
+.page-news .entry h2 {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.28;
+  letter-spacing: -0.018em;
+  margin-bottom: 0.85rem;
+  max-width: none;
+}
+.page-news .entry figure { margin: 0 0 1.35rem; max-width: 640px; }
+.page-news .entry img {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  background: var(--photo);
+  cursor: zoom-in;
+}
+.page-news .entry figcaption {
+  margin-top: 0.55rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--mute);
+}
+.page-news .entry p { font-size: 0.9375rem; line-height: 1.6; max-width: none; color: var(--ink); }
+.page-news .entry .tags {
+  margin-top: 1.1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.page-news .entry .tags span + span::before {
+  content: "·";
+  margin-inline: 0.55rem;
+  color: var(--rule-strong);
+}
+
+/* lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4vmin;
+  background: rgba(12, 20, 32, 0.76);
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  width: auto;
+  height: auto;
+  max-width: min(1100px, 100%);
+  max-height: 88vh;
+  border-radius: 2px;
+  cursor: zoom-out;
+}
+.lightbox .hint {
+  position: absolute;
+  bottom: 3vmin;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 860px) {
+  .page-news .entry { grid-template-columns: 1fr; row-gap: 0.85rem; }
+  .page-news .entry-date {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    justify-self: start;
+    width: auto;
+    padding: 0.18rem 0.55rem;
+    text-align: left;
+  }
+  .page-news .entry-date .y { margin-top: 0; font-size: 0.75rem; }
+  .page-news .entry h2 { font-size: 1.1875rem; }
+}
+
+/* news overrides: full width, intro sits under the h1 */
+.page-news .entries { max-width: none; padding: 2.4rem 0 3.5rem; margin-inline: auto; }
+.page-news .page-head { margin-inline: auto; }
+.page-news .page-head .intro { margin-left: 0; max-width: 62ch; margin-bottom: 0; }
+.page-news .page-head { padding-bottom: 1.2rem; }
+
+/* opening: numbered research directions */
+.opening-list { counter-reset: dir; }
+.opening-list li {
+  counter-increment: dir;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 0.5rem;
+}
+.opening-list li::before {
+  content: counter(dir, decimal-leading-zero);
+  font-family: Archivo, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+
+}
+
+/* research: indent the first line of every direction paragraph (two characters) */
+.page-research .theme .prose p {
+  text-indent: 2em;
+}
+.page-research .theme .prose p:first-child { text-indent: 2em; }

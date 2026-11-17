@@ -1,0 +1,7 @@
+# local tooling / working artefacts, not part of the published site
+.workbuddy/
+.archive/
+.shots/
+*.psd
+.DS_Store
+Thumbs.db
